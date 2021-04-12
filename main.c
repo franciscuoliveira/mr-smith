@@ -7,7 +7,7 @@
 
 void newUser(); 
 void login();
-void createUsername(char username[30]);
+const char* createUsername(char username[30]);
 
 int main() {
 
@@ -83,16 +83,19 @@ void newUser() {
         }         
 
     } while (!isUsername);
-
 }
 
-void createUsername(char username[30]) {
+// FIXME function should return void, use pointer
+const char* createUsername(char username[30]) {
     int len = 0;
 
     do {
         printf("\nPlease choose a username with 4 to 30 characters lenght. \nNew Username:");
         fgets(username, CHAR_MAX, stdin);
-
+        username[strcspn(username, "\n")] = '\0';                   // Removes the \n from the end of string
+        
         len = strlen(username);
-    } while (len < 5);
+    } while (len < 4);
+
+    return username;
 }
