@@ -1,3 +1,6 @@
+//TODO ask for password again and compare, ln 174
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -66,7 +69,7 @@ void newUser() {
      */ 
     do
     {
-        printf("%s is your username. \nAre you happy? \nPress 1 to continue or 0 to choose a new username.", username);
+        printf("|%s| is your username. \n\nAre you happy? \nPress 1 to continue or 0 to choose a new username.\n", username);
         scanf("%d", &k);
         getchar();
 
@@ -80,6 +83,9 @@ void newUser() {
     } while (!isUsername);
 
     createPassword(password);
+
+    printf("\n\nYour new username: %s", username);
+    printf("\n\nYour new password: %s\n", password);
 }
 
 // FIXME function should return void, use pointer
@@ -111,14 +117,14 @@ const char* createPassword(char password[CHAR_MAX]) {
      * return encrypted password
      */
 
-    int len, i, a, digi = 0, up = 0, low = 0, schar = 0;
+    int len, i, digi = 0, up = 0, low = 0, schar = 0;
     bool isStrong;
 
     // Choose password and verify constraints
     do {
 
         isStrong = true;
-        printf("\nPlease choose a password with 8 to 30 characters lenght. \nYour password should contain upper and lower case letters, numbers and special characters.");
+        printf("\nPlease choose a password with 8 to 30 characters lenght. \nYour password should contain upper and lower case letters, numbers and special characters.\n");
         //fgets(password, CHAR_MAX, stdin);
         //password[strcspn(password, "\n")] = '\0';                   // Removes the \n from the end of string
         gets(password);                                               // FIXME check for better options
@@ -127,43 +133,44 @@ const char* createPassword(char password[CHAR_MAX]) {
         // Check password size
         if (len < 8) {
             isStrong = false;
-            printf("\nYour password should have at least 8 characters");
+            printf("\nYour password should have at least 8 characters\n");
             continue;
         }
         if (len > 30) {
             printf("FGSDFs");
             isStrong = false;
-            printf("\nYour password should have up to 30 characters");
+            printf("\nYour password should have up to 30 characters\n");
             continue;
         }
 
         for (i = 0; password[i] != NULL; i++) {
-            if(password[i]>='A' && password[i]<='Z')
+            if(password[i] >= 'A' && password[i] <= 'Z')
                 up++;
-            if(password[i]>='a' && password[i]<='z')
+            if(password[i] >= 'a' && password[i] <= 'z')
                 low++;
-            if(password[i]>='0' && password[i]<='9')
+            if(password[i] >= '0' && password[i] <= '9')
                 digi++;
-            if(password[i]=='@'||password[i]=='#'||password[i]=='$')
+            if(password[i] == '@' || password[i] == '#' || password[i] == '$' || password[i] == '!')
                 schar++;
         }
 
         if (up == 0) {
-            printf("There must be at least one uppercase letter");
+            printf("\nThere must be at least one uppercase letter\n");
             isStrong = false;
         }
         if (low == 0) {
-            printf("There must be at least one lowercase letter");
+            printf("\nThere must be at least one lowercase letter\n");
             isStrong = false;
         }
         if (digi == 0) {
-            printf("There must be at least one number");
+            printf("\nThere must be at least one number\n");
             isStrong = false;
         }
         if (schar == 0) {
-            printf("There must be at least one special character");
+            printf("\nThere must be at least one special character\n");     // TODO specify special characters
             isStrong = false;
         }
     } while (!isStrong);
 
+    return password;
 }
