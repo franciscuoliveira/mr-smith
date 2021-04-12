@@ -113,6 +113,8 @@ const char* createPassword(char password[CHAR_MAX]) {
 
     int len, i, a, digi = 0, up = 0, low = 0, schar = 0;
     bool isStrong = true;
+
+    // Choose password and verify constraints
     do {
         printf("\nPlease choose a password with 8 to 30 characters lenght. \nYour password should contain upper and lower case letters, numbers and special characters.");
         //fgets(password, CHAR_MAX, stdin);
@@ -136,8 +138,32 @@ const char* createPassword(char password[CHAR_MAX]) {
             isStrong = true;
         }
 
-        for(i = 0, password[i] != NULL, i++) {
-            
+        for (i = 0; password[i] != NULL; i++) {
+            if(password[i]>='A' && password[i]<='Z')
+                up++;
+            if(password[i]>='a' && password[i]<='z')
+                low++;
+            if(password[i]>='0' && password[i]<='9')
+                digi++;
+            if(password[i]=='@'||password[i]=='#'||password[i]=='$')
+                schar++;
+        }
+
+        if (up == 0) {
+            printf("There must be at least one uppercase letter");
+            isStrong = false;
+        }
+        if (low == 0) {
+            printf("There must be at least one lowercase letter");
+            isStrong = false;
+        }
+        if (digi == 0) {
+            printf("There must be at least one number");
+            isStrong = false;
+        }
+        if (schar == 0) {
+            printf("There must be at least one special character");
+            isStrong = false;
         }
     } while (!isStrong);
 
