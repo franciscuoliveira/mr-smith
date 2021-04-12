@@ -112,10 +112,12 @@ const char* createPassword(char password[CHAR_MAX]) {
      */
 
     int len, i, a, digi = 0, up = 0, low = 0, schar = 0;
-    bool isStrong = true;
+    bool isStrong;
 
     // Choose password and verify constraints
     do {
+
+        isStrong = true;
         printf("\nPlease choose a password with 8 to 30 characters lenght. \nYour password should contain upper and lower case letters, numbers and special characters.");
         //fgets(password, CHAR_MAX, stdin);
         //password[strcspn(password, "\n")] = '\0';                   // Removes the \n from the end of string
@@ -128,14 +130,11 @@ const char* createPassword(char password[CHAR_MAX]) {
             printf("\nYour password should have at least 8 characters");
             continue;
         }
-        else if (len > 30) {
+        if (len > 30) {
             printf("FGSDFs");
             isStrong = false;
             printf("\nYour password should have up to 30 characters");
             continue;
-        }
-        else {
-            isStrong = true;
         }
 
         for (i = 0; password[i] != NULL; i++) {
