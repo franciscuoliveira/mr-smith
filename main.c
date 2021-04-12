@@ -7,7 +7,8 @@
 
 void newUser(); 
 void login();
-const char* createUsername(char username[30]);
+const char* createUsername(char username[CHAR_MAX]);
+const char* createPassword(char password[CHAR_MAX]);
 
 int main() {
 
@@ -40,12 +41,6 @@ int main() {
 }
 
 void login() {}
-
-/*
- * Creates new user
- * Stores password in data base
- * Returns to main menu
-*/
 
 void newUser() {
     
@@ -83,10 +78,12 @@ void newUser() {
         }         
 
     } while (!isUsername);
+
+    createPassword(password);
 }
 
 // FIXME function should return void, use pointer
-const char* createUsername(char username[30]) {
+const char* createUsername(char username[CHAR_MAX]) {
     int len = 0;
 
     do {
@@ -98,4 +95,50 @@ const char* createUsername(char username[30]) {
     } while (len < 4);
 
     return username;
+}
+
+// Returns encrypted password
+const char* createPassword(char password[CHAR_MAX]) {
+    /* DO
+     * Ask the user for password
+     * read the password from user
+     * check for special characters
+     * ask for the password again
+     * compare with previous password
+     * while passwords are different
+     * encrypt password  with sha512 + salt
+     * delete plain text password from variable
+     * return encrypted password
+     */
+
+    int len, i, a, digi = 0, up = 0, low = 0, schar = 0;
+    bool isStrong = true;
+    do {
+        printf("\nPlease choose a password with 8 to 30 characters lenght. \nYour password should contain upper and lower case letters, numbers and special characters.");
+        //fgets(password, CHAR_MAX, stdin);
+        //password[strcspn(password, "\n")] = '\0';                   // Removes the \n from the end of string
+        gets(password);                                               // FIXME check for better options
+        len = strlen(password);
+
+        // Check password size
+        if (len < 8) {
+            isStrong = false;
+            printf("\nYour password should have at least 8 characters");
+            continue;
+        }
+        else if (len > 30) {
+            printf("FGSDFs");
+            isStrong = false;
+            printf("\nYour password should have up to 30 characters");
+            continue;
+        }
+        else {
+            isStrong = true;
+        }
+
+        for(i = 0, password[i] != NULL, i++) {
+            
+        }
+    } while (!isStrong);
+
 }
