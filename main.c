@@ -86,10 +86,20 @@ void newUser() {
 
     } while (!isUsername);
 
-    createPassword(password);
+    createPassword(password);           // FIXME the characters should be hidden as the user writes
 
     printf("\n\nYour new username: %s", username);
     printf("\n\nYour new password: %s\n", password);
+
+    /*TESTING */
+    FILE *f;
+    f = fopen("database.txt", "w");
+    fputs(username, f);
+    fputs(" ", f);
+    fputs(password, f);
+    fputs("\n", f);
+
+    /* END TESTING */
 }
 
 // FIXME function should return void, use pointer
