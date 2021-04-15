@@ -78,7 +78,11 @@ void newUser() {
         }
         else if (k == 1) {
             isUsername = true;
-        }         
+        } 
+        else {
+            continue;                   // FIXME should return to the beggining of the loop
+                                        // is it possible to not accept any characters except 0 and 1?      
+        }
 
     } while (!isUsername);
 
