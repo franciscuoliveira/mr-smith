@@ -7,8 +7,9 @@
 
 void newUser(); 
 void login();
-const void createUsername(char *username[CHAR_MAX]);
+void createUsername(char username[CHAR_MAX]);
 const char* createPassword(char password[CHAR_MAX]);
+void checkUsername(char username[CHAR_MAX]);
 
 int main() {
 
@@ -45,10 +46,8 @@ void login() {}
 void newUser() {
     
     FILE *fDB;
-    char username[CHAR_MAX];                                                    // FIXME pass by reference
+    char username[CHAR_MAX];                                                    
     char password[CHAR_MAX];
-    bool isUsername = false;
-    int k = 0;
 
     fDB = fopen("database.txt", "wb");                                          // Opens file in binary write mode because the hashes will have weird characters
 
@@ -59,34 +58,13 @@ void newUser() {
     }
 
     // TODO check for repeated usernames
-    createUsername(&username);
+    createUsername(username);  
+    checkUsername(username);
 
-    /* If the username has more than 30 characters, only the first 30 will be stored.
-     * This asks the user whether they're happy with the username
-     */ 
-    do
-    {
-        printf("\n\n%s is your username. Are you happy? \nPress 1 to continue or 0 to choose a new username.\n", username);
-        //scanf("%d", &k);
-        k = getchar();
-        getchar();                      // avoids the EOL from staying in the buffer
+    //createPassword(password);           // FIXME the characters should be hidden as the user writes
 
-        if (k == 48) {                  // 48 ASCII = 0 dec
-            createUsername(username);
-        }
-        else if (k == 49) {             // 49 ASCII = 1 dec
-            isUsername = true;
-        } 
-        else {
-            continue;                    
-        }
-
-    } while (!isUsername);
-
-    createPassword(password);           // FIXME the characters should be hidden as the user writes
-
-    printf("\n\nYour new username: %s", *username);
-    printf("\n\nYour new password: %s\n", password);
+    printf("\nYour new username: %s", username);
+    //printf("\n\nYour new password: %s\n", password);
 
     /*TESTING */
     FILE *f;
@@ -99,17 +77,43 @@ void newUser() {
     /* END TESTING */
 }
 
-// FIXME function should return void, use pointer
-const void createUsername(char username[CHAR_MAX]) {
+void createUsername(char username[CHAR_MAX]) {
     int len = 0;
 
     do {
         printf("\nPlease choose a username with 4 to 30 characters lenght:\n");     
-        fgets(*username, CHAR_MAX, stdin);
-        *username[strcspn(*username, "\n")] = '\0';                   // Removes the \n from the end of string
+        fgets(username, CHAR_MAX, stdin);
+        username[strcspn(username, "\n")] = '\0';                   // Removes the \n from the end of string
         
-        len = strlen(*username);
+        len = strlen(username);
     } while (len < 4);
+
+}
+
+void checkUsername(char username[CHAR_MAX]) {
+    bool isUsername = false;
+    int k = 0;
+    do
+    {
+        /* If the username has more than 30 characters, only the first 30 will be stored.
+        * This asks the user whether they're happy with the username
+        */ 
+        printf("\n%s is your username. Are you happy? \nPress Y to continue or N to choose a new username.\n", username);
+        //scanf("%d", &k);
+        k = getchar();
+        getchar();                      // avoids the EOL from staying in the buffer
+
+        if (k == 78 || k == 110) {                  
+            createUsername(username);
+        }
+        else if (k == 89 || k == 121) {             
+            isUsername = true;
+        } 
+        else {
+            continue;                    
+        }
+
+    } while (!isUsername);
 
 }
 
