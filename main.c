@@ -186,5 +186,7 @@ const char* createPassword(char password[CHAR_MAX]) {
         }
     } while (!isStrong);
 
+    printf("\nWrite your password again for confirmation");
+
     return password;
 }
