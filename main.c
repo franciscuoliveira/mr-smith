@@ -1,6 +1,3 @@
-//TODO ask for password again and compare, ln 174
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,7 +7,7 @@
 
 void newUser(); 
 void login();
-const char* createUsername(char username[CHAR_MAX]);
+const void createUsername(char *username[CHAR_MAX]);
 const char* createPassword(char password[CHAR_MAX]);
 
 int main() {
@@ -62,7 +59,7 @@ void newUser() {
     }
 
     // TODO check for repeated usernames
-    createUsername(username);
+    createUsername(&username);
 
     /* If the username has more than 30 characters, only the first 30 will be stored.
      * This asks the user whether they're happy with the username
@@ -88,7 +85,7 @@ void newUser() {
 
     createPassword(password);           // FIXME the characters should be hidden as the user writes
 
-    printf("\n\nYour new username: %s", username);
+    printf("\n\nYour new username: %s", *username);
     printf("\n\nYour new password: %s\n", password);
 
     /*TESTING */
@@ -103,18 +100,17 @@ void newUser() {
 }
 
 // FIXME function should return void, use pointer
-const char* createUsername(char username[CHAR_MAX]) {
+const void createUsername(char username[CHAR_MAX]) {
     int len = 0;
 
     do {
         printf("\nPlease choose a username with 4 to 30 characters lenght:\n");     
-        fgets(username, CHAR_MAX, stdin);
-        username[strcspn(username, "\n")] = '\0';                   // Removes the \n from the end of string
+        fgets(*username, CHAR_MAX, stdin);
+        *username[strcspn(*username, "\n")] = '\0';                   // Removes the \n from the end of string
         
-        len = strlen(username);
+        len = strlen(*username);
     } while (len < 4);
 
-    return username;
 }
 
 // Returns encrypted password
@@ -133,6 +129,7 @@ const char* createPassword(char password[CHAR_MAX]) {
 
     int len, i, digi = 0, up = 0, low = 0, schar = 0;
     bool isStrong;
+    char password2[CHAR_MAX];
 
     // Choose password and verify constraints
     do {
@@ -186,7 +183,9 @@ const char* createPassword(char password[CHAR_MAX]) {
         }
     } while (!isStrong);
 
-    printf("\nWrite your password again for confirmation");
+    printf("\nWrite your password again for confirmation: \n");
+    gets(password2);
 
+    
     return password;
 }
