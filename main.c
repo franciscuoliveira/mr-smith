@@ -69,9 +69,10 @@ void newUser() {
      */ 
     do
     {
-        printf("%s is your username. \n\nAre you happy? \nPress 1 to continue or 0 to choose a new username.\n", username);
+        printf("\n\n%s is your username. Are you happy? \nPress 1 to continue or 0 to choose a new username.\n", username);
         //scanf("%d", &k);
         k = getchar();
+        getchar();                      // avoids the EOL from staying in the buffer
 
         if (k == 48) {                  // 48 ASCII = 0 dec
             createUsername(username);
@@ -80,8 +81,7 @@ void newUser() {
             isUsername = true;
         } 
         else {
-            continue;                   // FIXME should return to the beggining of the loop
-                                        // is it possible to not accept any characters except 0 and 1?      
+            continue;                    
         }
 
     } while (!isUsername);
@@ -107,7 +107,7 @@ const char* createUsername(char username[CHAR_MAX]) {
     int len = 0;
 
     do {
-        printf("\nPlease choose a username with 4 to 30 characters lenght. \nNew Username:");
+        printf("\nPlease choose a username with 4 to 30 characters lenght:\n");     
         fgets(username, CHAR_MAX, stdin);
         username[strcspn(username, "\n")] = '\0';                   // Removes the \n from the end of string
         
