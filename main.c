@@ -69,14 +69,14 @@ void newUser() {
      */ 
     do
     {
-        printf("|%s| is your username. \n\nAre you happy? \nPress 1 to continue or 0 to choose a new username.\n", username);
-        scanf("%d", &k);
-        getchar();
+        printf("%s is your username. \n\nAre you happy? \nPress 1 to continue or 0 to choose a new username.\n", username);
+        //scanf("%d", &k);
+        k = getchar();
 
-        if (k == 0) {
+        if (k == 48) {                  // 48 ASCII = 0 dec
             createUsername(username);
         }
-        else if (k == 1) {
+        else if (k == 49) {             // 49 ASCII = 1 dec
             isUsername = true;
         } 
         else {
@@ -181,7 +181,7 @@ const char* createPassword(char password[CHAR_MAX]) {
             isStrong = false;
         }
         if (schar == 0) {
-            printf("\nThere must be at least one special character\n");     // TODO specify special characters
+            printf("\nThere must be at least one special character ('@', '#', '$', '!'\n");   
             isStrong = false;
         }
     } while (!isStrong);
