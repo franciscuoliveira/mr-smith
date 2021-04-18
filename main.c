@@ -12,6 +12,7 @@ bool createPassword(char password[CHAR_MAX]);
 void checkUsername(char username[CHAR_MAX]);
 int isMatch(char password[CHAR_MAX]);
 bool isStrong(char password[CHAR_MAX]);
+void encryptPassword(char password[CHAR_MAX]) ;
 
 int main() {
 
@@ -60,6 +61,7 @@ void newUser() {
     }
 
     // TODO check for repeated usernames
+    // TODO how to amke sure there are no spaces?
     createUsername(username);  
     checkUsername(username);
 
@@ -68,6 +70,8 @@ void newUser() {
         createPassword(password);
     } 
     while (!createPassword(password));
+
+    encryptPassword(password);
 
     printf("\nYour new username: %s", username);
     //printf("\n\nYour new password: %s\n", password);
@@ -136,8 +140,7 @@ bool createPassword(char password[CHAR_MAX]) {
      * delete plain text password from variable
      * return encrypted password
      */
-
-    bool isSet = false;
+    
     // Choose password and verify constraints
     do {
 
@@ -150,7 +153,6 @@ bool createPassword(char password[CHAR_MAX]) {
     } while (!isStrong(password));
 
     if(isMatch(password) == 1) {
-        printf("\nFEITO\n");
         return true;
     }
     else {
@@ -211,4 +213,8 @@ int isMatch(char password[CHAR_MAX]) {
     gets(password2);
 
     return(strcmp(password, password2));
+}
+
+void encryptPassword(char password[CHAR_MAX]) {
+    
 }
