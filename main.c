@@ -21,9 +21,8 @@ int main() {
     int opt = 0;
 
     printf("Welcome! \nChoose an option from the menu bellow:\n");
-    printf("1 - Login\n");
-    
-    printf("2 - Create new user\n");
+    printf("1 - Sign In\n");
+    printf("2 - Sign Up\n");
     printf("3 - Quit\n");
 
     scanf("%d", &opt);
@@ -54,7 +53,8 @@ void newUser() {
     char username[CHAR_MAX];                                                    
     char password[CHAR_MAX];
 
-    fDB = fopen("database.txt", "wb");                                          // Opens file in binary write mode because the hashes will have weird characters
+    bool isSet = false;
+    fDB = fopen("database.txt", "a");                                          // Opens file in binary write mode because the hashes will have weird characters
 
     // Check if the file opened correctly
     if (fDB == NULL) {
@@ -63,30 +63,28 @@ void newUser() {
     }
 
     // TODO check for repeated usernames
-    // TODO how to amke sure there are no spaces?
+    // TODO how to make sure there are no spaces?
     createUsername(username);  
     checkUsername(username);
 
     // FIXME the characters should be hidden as the user writes
-    do {
-        createPassword(password);
-    } 
-    while (!createPassword(password));
+    // FIXME ugly
+    while (!isSet) {
+        isSet = createPassword(password);
+    }
 
     encryptPassword(password);
 
     printf("\nYour new username: %s", username);
-    //printf("\n\nYour new password: %s\n", password);
+    printf("\n\nYour new password: %s\n", password);
 
-    /*TESTING */
-    FILE *f;
-    f = fopen("database.txt", "w");
-    fputs(username, f);
-    fputs(" ", f);
-    fputs(password, f);
-    fputs("\n", f);
+    fputs(username, fDB);
+    fputs(" ", fDB);
+    fputs(password, fDB);
 
     /* END TESTING */
+
+    fclose(fDB);
 }
 
 void createUsername(char username[CHAR_MAX]) {
@@ -152,10 +150,11 @@ bool createPassword(char password[CHAR_MAX]) {
         //fgets(password, CHAR_MAX, stdin);
         //password[strcspn(password, "\n")] = '\0';                   // Removes the \n from the end of string
         
-        gets(password);                                               // FIXME check for better options
+        gets(password); 
     } while (!isStrong(password));
 
-    if(isMatch(password) == 1) {
+    // isMatch() strcmp returning 0 means the two passwords are the same
+    if(isMatch(password) == 0) {
         return true;
     }
     else {
@@ -210,12 +209,14 @@ bool isStrong(char password[CHAR_MAX]) {
 
 int isMatch(char password[CHAR_MAX]) {
     char password2[CHAR_MAX];
-    int ret;
+    int ret = 0;
 
     printf("\nWrite your password again for confirmation: \n");
     gets(password2);
 
-    return(strcmp(password, password2));
+    ret =strcmp(password, password2);
+
+    return ret;
 }
 
 void encryptPassword(char password[CHAR_MAX]) {
