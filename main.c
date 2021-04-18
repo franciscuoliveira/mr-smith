@@ -14,6 +14,8 @@ int isMatch(char password[CHAR_MAX]);
 bool isStrong(char password[CHAR_MAX]);
 void encryptPassword(char password[CHAR_MAX]) ;
 
+void removeSpaces(char* s);
+
 int main() {
 
     int opt = 0;
@@ -91,10 +93,11 @@ void createUsername(char username[CHAR_MAX]) {
     int len = 0;
 
     do {
-        printf("\nPlease choose a username with 4 to 30 characters lenght:\n");     
+        printf("\nPlease choose a username with 4 to 30 characters lenght. Any spaces will be deleted: \n");     
         fgets(username, CHAR_MAX, stdin);
         username[strcspn(username, "\n")] = '\0';                   // Removes the \n from the end of string
-        
+        removeSpaces(username);
+
         len = strlen(username);
     } while (len < 4);
 
@@ -217,4 +220,14 @@ int isMatch(char password[CHAR_MAX]) {
 
 void encryptPassword(char password[CHAR_MAX]) {
     
+}
+
+
+void removeSpaces(char* s) {
+    const char* d = s;
+    do {
+        while (*d == ' ') {
+            ++d;
+        }
+    } while (*s++ = *d++);
 }
