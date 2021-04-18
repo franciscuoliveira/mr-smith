@@ -12,8 +12,8 @@ bool createPassword(char password[CHAR_MAX]);
 void checkUsername(char username[CHAR_MAX]);
 int isMatch(char password[CHAR_MAX]);
 bool isStrong(char password[CHAR_MAX]);
-void encryptPassword(char password[CHAR_MAX]) ;
-
+void encryptPassword(char password[CHAR_MAX]);
+bool isUsernameAvailable(char* username);
 void removeSpaces(char* s);
 
 int main() {
@@ -52,6 +52,7 @@ void newUser() {
     FILE *fDB;
     char username[CHAR_MAX];                                                    
     char password[CHAR_MAX];
+    bool isAvailable = false;
 
     bool isSet = false;
     fDB = fopen("database.txt", "a");                                          // Opens file in binary write mode because the hashes will have weird characters
@@ -62,10 +63,13 @@ void newUser() {
         exit(EXIT_FAILURE);
     }
 
-    // TODO check for repeated usernames
-    // TODO how to make sure there are no spaces?
-    createUsername(username);  
-    checkUsername(username);
+    do {
+        createUsername(username);
+        checkUsername(username);
+
+    }
+    while (!isUsernameAvailable(username));
+
 
     // FIXME the characters should be hidden as the user writes
     // FIXME ugly
@@ -78,6 +82,7 @@ void newUser() {
     printf("\nYour new username: %s", username);
     printf("\n\nYour new password: %s\n", password);
 
+    fputs("\n", fDB);
     fputs(username, fDB);
     fputs(" ", fDB);
     fputs(password, fDB);
@@ -105,7 +110,7 @@ void checkUsername(char username[CHAR_MAX]) {
     bool isUsername = false;
     int k = 0;
     do
-    {
+    {        
         /* If the username has more than 30 characters, only the first 30 will be stored.
         * This asks the user whether they're happy with the username
         */ 
@@ -232,3 +237,40 @@ void removeSpaces(char* s) {
         }
     } while (*s++ = *d++);
 }
+
+bool isUsernameAvailable(char* username) {
+    FILE *ifp;
+    char ch, read[100];
+    int word_len, i, p = 0;
+    bool flag = true;
+  
+    ifp = fopen("database.txt", "r");
+    if (ifp == NULL) {
+        printf("Can't open file.");
+        exit(0);
+    }
+  
+    // comparing word with file
+    rewind(ifp);
+    while (!feof(ifp)) {
+  
+        fscanf(ifp, "%s", read);
+  
+        if (strcmp(read, username) == 0) {
+  
+            printf("%s is already taken. Please choose another username.\n", username);
+            flag = false;
+        }
+  
+    }
+   
+    fclose(ifp);
+
+    if (!flag) {
+        return false;
+    }
+    else
+        return true;
+}
+
+  
