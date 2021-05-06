@@ -79,8 +79,11 @@ void newUser() {
 
     encryptPassword(password);
 
+    // TESTINGONLY
     printf("\nYour new username: %s", username);
     printf("\n\nYour new password: %s\n", password);
+
+
 
     fputs("\n", fDB);
     fputs(username, fDB);
@@ -133,7 +136,6 @@ void checkUsername(char username[CHAR_MAX]) {
 
 }
 
-// Returns encrypted password
 bool createPassword(char password[CHAR_MAX]) {
     /* DO
      * Ask the user for password
@@ -224,10 +226,6 @@ int isMatch(char password[CHAR_MAX]) {
     return ret;
 }
 
-void encryptPassword(char password[CHAR_MAX]) {
-    
-}
-
 
 void removeSpaces(char* s) {
     const char* d = s;
@@ -272,5 +270,3 @@ bool isUsernameAvailable(char* username) {
     else
         return true;
 }
-
-  
