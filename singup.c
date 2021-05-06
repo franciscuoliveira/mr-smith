@@ -1,7 +1,10 @@
+// TODO encryption?
+
 #include "signup.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 #define CHAR_MAX 30
 #include <stdlib.h>
@@ -163,8 +166,6 @@ bool isStrong(char password[CHAR_MAX]) {
         return true;
 }
 
-
-
 int isMatch(char password[CHAR_MAX]) {
     char password2[CHAR_MAX];
     int ret = 0;
@@ -176,8 +177,6 @@ int isMatch(char password[CHAR_MAX]) {
 
     return ret;
 }
-
-
 
 void removeSpaces(char* s) {
     const char* d = s;
@@ -221,4 +220,8 @@ bool isUsernameAvailable(char* username) {
     }
     else
         return true;
+}
+
+void generateSalt() {
+    // TODO generate salt
 }

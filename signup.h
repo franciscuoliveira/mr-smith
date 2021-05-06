@@ -6,7 +6,7 @@
 /**
  * This is a function declaration.
  * It tells the compiler that the function exists somewhere.
- */
+ **/
 
 #include <stdbool.h>
 
@@ -22,6 +22,6 @@ bool isStrong(char password[CHAR_MAX]);
 void encryptPassword(char password[CHAR_MAX]);
 bool isUsernameAvailable(char* username);
 void removeSpaces(char* s);
-
+void generateSalt();
 
 #endif /* SIGNUP_DOT_H */

@@ -76,8 +76,4 @@ int server()
         fclose(fp);
 
         return 0;
-		}
-
-int main(){
-server();
 }
