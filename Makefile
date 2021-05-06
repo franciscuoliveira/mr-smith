@@ -1,2 +1,2 @@
 build: 
-		gcc -o mrsmith -g main.c signin.c singup.c 
+		gcc -Wall -o mrsmith -g main.c signin.c singup.c 
