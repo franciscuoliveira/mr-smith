@@ -137,17 +137,6 @@ void checkUsername(char username[CHAR_MAX]) {
 }
 
 bool createPassword(char password[CHAR_MAX]) {
-    /* DO
-     * Ask the user for password
-     * read the password from user
-     * check for special characters
-     * ask for the password again
-     * compare with previous password
-     * while passwords are different
-     * encrypt password  with sha512 + salt
-     * delete plain text password from variable
-     * return encrypted password
-     */
     
     // Choose password and verify constraints
     do {
