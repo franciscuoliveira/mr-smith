@@ -7,7 +7,7 @@
 
 #define CHAR_MAX 30
 
-void login();
+void signin();
 
 int main() {
 
@@ -23,8 +23,7 @@ int main() {
 
     switch (opt) {
         case 1:
-            login();
-            printf("Loggin in...\n");
+            signin();
             break;
         case 2:
             newUser();
@@ -37,7 +36,4 @@ int main() {
 
     return 0;
 }
-
-void login() {}
-
 
